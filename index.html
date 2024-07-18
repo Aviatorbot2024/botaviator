@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compartilhar para Acessar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(to right, green, white);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1;
+        }
+        button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #20c357;
+        }
+        #play-without-bot {
+            background-color: #ff4757;
+            margin-top: 20px;
+        }
+        #play-without-bot:hover {
+            background-color: #ff6b81;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Compartilhe para Acessar o Bot</h2>
+        <p>Para acessar o bot, compartilhe a mensagem abaixo com 5 contatos do WhatsApp:</p>
+        <br>
+        <button id="share-button">Compartilhar no WhatsApp</button>
+        <br>
+        <button id="confirm-button" style="display:none;">Confirmar Compartilhamento</button>
+        <br>
+        <p>Compartilhamentos confirmados: <span id="count">0</span></p>
+        <br>
+        <button id="accessBotButton" class="disabled" style="display:none;" disabled>Acessar Bot</button>
+        <button id="play-without-bot" class="secondary" onclick="window.location.href='https://record.elephantbet.com/_0NLnTSoJHykWqcfzuvZcQGNd7ZgqdRLk/1/'">Jogar Aviator sem Bot</button>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let count = parseInt(localStorage.getItem('shareCount')) || 0;
+            document.getElementById('count').innerText = count;
+
+            if (count >= 5) {
+                document.getElementById('accessBotButton').style.display = 'inline-block';
+            }
+        });
+
+        document.getElementById('share-button').addEventListener('click', function() {
+            const message = encodeURIComponent("COMEÇAR A FÁTURAR HOJE NO AVIATOR CLIQUE NESSE LINK PARA CRIAR CONTA E COMEÇAR A APOSTAR https://record.elephantbet.com/_0NLnTSoJHykWqcfzuvZcQGNd7ZgqdRLk/1/");
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+            
+            // Abre o WhatsApp para seleção manual de contatos
+            window.open(whatsappUrl, '_blank');
+
+            // Mostra o botão de confirmar compartilhamento após abrir o WhatsApp
+            document.getElementById('confirm-button').style.display = 'inline-block';
+        });
+
+        document.getElementById('confirm-button').addEventListener('click', function() {
+            // Verificar se o usuário realmente compartilhou
+            let userConfirmed = confirm("Você compartilhou o link com 5 contatos?");
+            if (userConfirmed) {
+                let count = parseInt(localStorage.getItem('shareCount')) || 0;
+                count += 5; // Incrementa em 5 para simular que o usuário compartilhou com 5 contatos
+                localStorage.setItem('shareCount', count);
+                document.getElementById('count').innerText = count;
+
+                if (count >= 5) {
+                    document.getElementById('accessBotButton').style.display = 'inline-block';
+                }
+            } else {
+                alert("Por favor, compartilhe o link com 5 contatos antes de confirmar.");
+            }
+        });
+
+        document.getElementById('accessBotButton').addEventListener('click', function() {
+            let count = parseInt(localStorage.getItem('shareCount')) || 0;
+            if (count >= 5) {
+                // Redireciona para o link do bot
+                window.location.href = 'https://bit.ly/4f3OqOZ';
+            } else {
+                alert('Você precisa compartilhar com pelo menos 5 contatos para acessar o bot.');
+            }
+        });
+    </script>
+</body>
+</html>
